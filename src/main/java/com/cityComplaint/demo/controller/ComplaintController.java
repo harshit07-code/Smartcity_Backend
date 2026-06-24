@@ -49,6 +49,9 @@ public class ComplaintController {
 	ComplaintUpdatesService complaintUpdatesService;
 
 	@Autowired
+	private CloudinaryService cloudinaryService;
+
+	@Autowired
 	private DepartmentRepository departmentRepository;
 
 	@Autowired
@@ -89,30 +92,35 @@ public class ComplaintController {
 		complaint.setType(type);
 
 
-		String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+//		String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+////
+////		Path path = Paths.get("src/main/resources/static/images/" + fileName);
+////		Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+////
+////		complaint.setImageUrl("/images/" + fileName);
+//		String uploadDir = "uploads/images/";
 //
-//		Path path = Paths.get("src/main/resources/static/images/" + fileName);
-//		Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+//		File dir = new File(uploadDir);
+//
+//		if (!dir.exists()) {
+//			dir.mkdirs();
+//		}
+//
+//		Path path = Paths.get(uploadDir + fileName);
+//
+//		Files.copy(
+//				image.getInputStream(),
+//				path,
+//				StandardCopyOption.REPLACE_EXISTING
+//		);
+//		System.out.println(path.toAbsolutePath());
 //
 //		complaint.setImageUrl("/images/" + fileName);
-		String uploadDir = "uploads/images/";
 
-		File dir = new File(uploadDir);
+		String imageUrl =
+				cloudinaryService.uploadImage(image);
 
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-
-		Path path = Paths.get(uploadDir + fileName);
-
-		Files.copy(
-				image.getInputStream(),
-				path,
-				StandardCopyOption.REPLACE_EXISTING
-		);
-		System.out.println(path.toAbsolutePath());
-
-		complaint.setImageUrl("/images/" + fileName);
+		complaint.setImageUrl(imageUrl);
 		complaint.setUser(user);
 
 		GeminiResponse aiResponse = geminiService.askGemini(originalDescription);
