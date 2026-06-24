@@ -20,9 +20,12 @@ import com.cityComplaint.demo.dto.GeminiResponse;
 import com.cityComplaint.demo.repository.DepartmentRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class GeminiService {
+	@Value("${GROQ_API_KEY}")
+	private String groqApiKey;
 
 
 	@Autowired
@@ -37,6 +40,7 @@ public class GeminiService {
 	// originalDescription
 
 	public GeminiResponse askGemini(String complaintText) throws Exception {
+
 
 		List<Department> departments = departmentRepository.findAll();
 
@@ -93,19 +97,38 @@ Example:
 """.formatted(departmentNames, complaintText);
 		RestTemplate restTemplate = new RestTemplate();
 
+//		HttpHeaders headers = new HttpHeaders();
+//
+//		headers.setContentType(MediaType.APPLICATION_JSON);
+
 		HttpHeaders headers = new HttpHeaders();
 
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
+		headers.setBearerAuth(groqApiKey);
+
+//		Map<String, Object> body = Map.of(
+//				"model", "phi3:mini",
+//				"prompt", prompt,
+//				"stream", false
+//		);
+
 		Map<String, Object> body = Map.of(
-				"model", "phi3:mini",
-				"prompt", prompt,
-				"stream", false
+				"model", "llama-3.1-8b-instant",
+				"messages", List.of(
+						Map.of(
+								"role", "user",
+								"content", prompt
+						)
+				),
+				"temperature", 0.2
 		);
+
 
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
 
-		String url = "http://localhost:11434/api/generate";
+//		String url = "http://localhost:11434/api/generate";
+		String url = "https://api.groq.com/openai/v1/chat/completions";
 		String fullResponse = "";
 
 		try {
@@ -143,7 +166,12 @@ Example:
 		JsonNode root = mapper.readTree(fullResponse);
 
 //		String aiText = root.get("response").asText();
-		String aiText = root.get("response").asText();
+		String aiText =
+				root.get("choices")
+						.get(0)
+						.get("message")
+						.get("content")
+						.asText();
 
 		System.out.println("AI TEXT = ");
 		System.out.println(aiText);
