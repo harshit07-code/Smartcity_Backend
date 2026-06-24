@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -24,8 +25,14 @@ import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class GeminiService {
-	@Value("${GROQ_API_KEY}")
+
+	@Value("${GROQ_API_KEY:NOT_FOUND}")
 	private String groqApiKey;
+
+	@PostConstruct
+	public void testKey() {
+		System.out.println("GROQ KEY = " + groqApiKey);
+	}
 
 
 	@Autowired
