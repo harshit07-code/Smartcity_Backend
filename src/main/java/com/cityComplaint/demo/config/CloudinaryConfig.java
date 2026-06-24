@@ -28,8 +28,25 @@ private String cloudName;
     @Value("${CLOUDINARY_API_SECRET:test}")
     private String apiSecret;
 
+//    @Bean
+//    public Cloudinary cloudinary() {
+//
+//        return new Cloudinary(
+//                ObjectUtils.asMap(
+//                        "cloud_name", cloudName,
+//                        "api_key", apiKey,
+//                        "api_secret", apiSecret,
+//                        "secure", true
+//                )
+//        );
+//    }
+
     @Bean
     public Cloudinary cloudinary() {
+
+        System.out.println("Cloud Name = " + cloudName);
+        System.out.println("API Key = " + apiKey);
+        System.out.println("API Secret Exists = " + (apiSecret != null));
 
         return new Cloudinary(
                 ObjectUtils.asMap(
