@@ -55,7 +55,7 @@ public class UserController {
 	// This will open my landing page
 
 	@GetMapping("/home")
-	public String home(@RequestBody String message) {
+	public String home() {
 		return "home Page Visible ";
 	}
 
