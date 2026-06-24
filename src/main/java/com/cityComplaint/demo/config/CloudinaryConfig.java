@@ -4,12 +4,19 @@ package com.cityComplaint.demo.config;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class CloudinaryConfig {
+
+    @PostConstruct
+    public void check() {
+        System.out.println("Cloud Name = " + cloudName);
+        System.out.println("API Key = " + apiKey);
+    }
 
     @Value("${CLOUDINARY_CLOUD_NAME}")
     private String cloudName;
