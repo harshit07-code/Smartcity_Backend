@@ -28,7 +28,10 @@ import com.cityComplaint.demo.service.UserService;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {
+		"http://localhost:3000",
+		"https://smartcity-frontend-six.vercel.app"
+})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
