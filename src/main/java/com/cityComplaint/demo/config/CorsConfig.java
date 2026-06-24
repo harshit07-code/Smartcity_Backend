@@ -67,7 +67,7 @@ public class CorsConfig {
                 registry.addMapping("/**")
                         .allowedOrigins(
                                 "http://localhost:3000",
-                                "https://smart-city-frontend-project.vercel.app"
+                                "https://smart-city-frontend-project-rlac672st.vercel.app"
                         )
                         .allowedMethods("*")
                         .allowedHeaders("*");
@@ -75,3 +75,4 @@ public class CorsConfig {
         };
     }
 }
+            
