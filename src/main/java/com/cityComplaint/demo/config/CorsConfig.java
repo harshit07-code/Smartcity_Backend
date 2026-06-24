@@ -44,7 +44,7 @@ public class CorsConfig {
                 registry.addMapping("/**")
                         .allowedOrigins(
                                 "http://localhost:3000",
-                                "https://your-frontend-name.netlify.app"
+                                "https://smartcity-frontend-six.vercel.app"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
